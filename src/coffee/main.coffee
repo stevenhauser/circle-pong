@@ -1,12 +1,19 @@
-KEYS =
-  37: "left"
-  39: "right"
+define (require) ->
 
-rotation = 0
-p1 = document.getElementById "player-1"
-p1s = p1.style
+  User = require "user"
 
-document.addEventListener "keydown", (e) ->
-  return unless e.which of KEYS
-  rotation += if KEYS[e.which] is "left" then 5 else -5
-  p1s.webkitTransform = "rotate(#{rotation}deg)"
+  game = document.getElementById "game"
+
+  players = [new User]
+
+  for player in players
+    game.appendChild player.el
+    player.appended()
+
+
+
+  tick = () ->
+    player.update() for player in players
+    requestAnimationFrame tick
+
+  tick()

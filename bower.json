@@ -2,6 +2,7 @@
   "name": "circular-pong",
   "version": "0.0.0",
   "dependencies": {
-    "requirejs": "~2.1.5"
+    "requirejs": "~2.1.5",
+    "underscore": "~1.4.4"
   }
 }
