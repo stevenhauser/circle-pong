@@ -1,5 +1,7 @@
 define (require) ->
 
+  anglable = require "anglable"
+
   angle = -90
 
   config =
@@ -111,3 +113,8 @@ define (require) ->
     appended: () ->
       @el.classList.remove "entering"
       @
+
+
+  _.extend Player::, anglable
+
+  Player

@@ -1,6 +1,7 @@
 define (require) ->
 
   config = require "config"
+  anglable = require "anglable"
 
   cx = config.width / 2
   cy = cx
@@ -69,3 +70,9 @@ define (require) ->
       dx = Math.abs point.x - @x
       dy = Math.abs point.y - @y
       Math.sqrt dx * dx + dy * dy
+
+
+
+  _.extend Ball::, anglable
+
+  Ball
