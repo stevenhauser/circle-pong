@@ -36,6 +36,9 @@ define (require) ->
       @vx = @randomSpeed() * @randomVector()
       @vy = @randomSpeed() * @randomVector()
       @angle = @calculateAngle()
+      @oldLastPlayerToHit = @lastPlayerToHit
+      @lastPlayerToHit = null
+      @wasJustReset = true
       @
 
     randomSpeed: () ->
@@ -49,13 +52,29 @@ define (require) ->
       deg = r2d rad
       deg - 90
 
-    update: () ->
-      @reset() if @isOutOfBounds()
+    update: (players) ->
+      if @isOutOfBounds()
+        @reset()
+        return
+      collided = @checkForCollisions(players)
+      @vx *= if collided then -1 else 1
+      @vy *= if collided then -1 else 1
       @x += @vx
       @y += @vy
       @el.style.left = @x
       @el.style.top = @y
+      @wasJustReset = false
       @
+
+    checkForCollisions: (players) ->
+      return unless @isOnBound()
+      for player in players
+        angleRange = player.getAngleRange()
+        isInRange = angleRange.min < @getNormalizedAngle() < angleRange.max
+        # console.log( player.getNormalizedAngle(), angleRange.min, @getNormalizedAngle(), angleRange.max );
+        if isInRange
+          @lastPlayerToHit = player
+          return true
 
     isOnBound: () ->
       (radius - 5) < @distanceFromCenter() < (radius + 5)

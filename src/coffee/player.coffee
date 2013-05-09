@@ -1,7 +1,9 @@
 define (require) ->
 
   anglable = require "anglable"
+  appConfig = require "config"
 
+  radius = appConfig.width / 2
   angle = -90
 
   config =
@@ -36,6 +38,7 @@ define (require) ->
       @health = config.health.max
       @lives  = config.lives.max
       @angle  = getAngle()
+      @hasBeenRemoved = false
       @rotationDirection = 0
       @createElement().update()
       @
@@ -68,7 +71,7 @@ define (require) ->
       @
 
     calculatePath: () ->
-      x1 = (config.lives.max - @lives + 1) * 25
+      x1 = @getChordOffset()
       x2 = config.svg.width - x1
       y  = 25
       "M #{x1} #{y} A 265 265 0 0 0 #{x2} #{y}"
@@ -90,6 +93,18 @@ define (require) ->
       @angle += offset
       @
 
+    getChordOffset: () ->
+      (config.lives.max - @lives + 1) * 25
+
+    # @TODO: This isn't accurate at all. Somehow need to calculate
+    # the overall angle a paddle covers from one end to another,
+    # but my math skills are too abysmal to do so...
+    getAngleRange: () ->
+      angle = @getNormalizedAngle()
+      halfChord = @getChordOffset()
+      range = halfChord
+      { min: angle - range, max: angle + range }
+
     hurt: () ->
       if @health > config.health.min then @health--
       else @health = config.health.max; @die()
@@ -108,6 +123,7 @@ define (require) ->
 
     remove: () ->
       @el.remove()
+      @hasBeenRemoved = true
       @
 
     appended: () ->
