@@ -1,0 +1,12 @@
+# Files
+.DS_Store
+.sass-cache
+*.sublime-workspace
+*.sublime-project
+*.log
+
+# Directories
+/components
+/node_modules
+/dist
+/build

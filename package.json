@@ -1,0 +1,13 @@
+{
+  "name": "circle-pong",
+  "version": "0.0.0",
+  "description": "A circular pong game",
+  "main": "index.js",
+  "repository": "",
+  "author": "Steven Hauser",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib": "~0.6.1"
+  }
+}
