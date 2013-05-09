@@ -68,9 +68,9 @@ define (require) ->
       @
 
     calculatePath: () ->
-      x1 = (config.lives.max - @lives) * 25
+      x1 = (config.lives.max - @lives + 1) * 25
       x2 = config.svg.width - x1
-      y  = 10
+      y  = 25
       "M #{x1} #{y} A 265 265 0 0 0 #{x2} #{y}"
 
     update: () ->
