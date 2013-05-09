@@ -10,6 +10,12 @@ define (require) ->
     path:
       padding: 10
       radius:  265
+    lives:
+      min: 1
+      max: 3
+    health:
+      min: 1
+      max: 3
 
 
   getAngle = () ->
@@ -21,10 +27,12 @@ define (require) ->
 
     speed: 2
 
+    shouldUpdate: true
+
     constructor: () ->
       @id     = _.uniqueId "player-"
-      @health = 3
-      @lives  = 3
+      @health = config.health.max
+      @lives  = config.lives.max
       @angle  = getAngle()
       @rotationDirection = 0
       @createElement().update()
@@ -38,6 +46,7 @@ define (require) ->
       path   = document.createElementNS config.svg.ns, "path"
       # Configure player element
       player.classList.add "player"
+      player.classList.add "entering"
       player.id = @id
       # Configure paddle element
       paddle.classList.add "paddle"
@@ -57,12 +66,13 @@ define (require) ->
       @
 
     calculatePath: () ->
-      x1 = @lives * 5
-      x2 = config.svg.width - @lives * 5
+      x1 = (config.lives.max - @lives) * 25
+      x2 = config.svg.width - x1
       y  = 10
       "M #{x1} #{y} A 265 265 0 0 0 #{x2} #{y}"
 
     update: () ->
+      return unless @shouldUpdate
       @el.dataset.health = @health
       @el.dataset.lives = @lives
       @el.style.webkitTransform = "rotate(#{@angle}deg)"
@@ -78,4 +88,26 @@ define (require) ->
       @angle += offset
       @
 
+    hurt: () ->
+      if @health > config.health.min then @health--
+      else @health = config.health.max; @die()
+      @
+
+    die: () ->
+      @lives--
+      @rot() if @lives < config.lives.min
+      @
+
+    rot: () ->
+      @shouldUpdate = false
+      @el.classList.add "exiting"
+      setTimeout (() => @remove()), 5000
+      @
+
+    remove: () ->
+      @el.remove()
+      @
+
     appended: () ->
+      @el.classList.remove "entering"
+      @

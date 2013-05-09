@@ -33,7 +33,10 @@ body {
   height: $half-size;
   -webkit-transform-origin: 50% 0;
   -webkit-transform: rotate(0deg);
-  // -webkit-transition: -webkit-transform .25s;
+  -webkit-transition: opacity .5s;
+
+  &.entering { opacity: 0; }
+  &.exiting  { opacity: 0; }
 }
 
 .paddle {
@@ -50,7 +53,7 @@ body {
 
   .arc {
     stroke-width: 20px;
-    -webkit-transition: stroke 1s linear;
+    -webkit-transition: stroke .5s linear;
   }
 
   .player[data-health="3"] & .arc { stroke: hsl(90, 75%, 30%); }
