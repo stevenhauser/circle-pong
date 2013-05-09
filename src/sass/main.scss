@@ -1,0 +1,59 @@
+$size: 500px;
+$half-size: $size / 2;
+
+%debug {
+  box-shadow: 0 0 0 1px rgba(#f00, .5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #222;
+}
+
+#game {
+  @extend %debug;
+  position: relative;
+  margin: 30px auto 0;
+  width: $size;
+  height: $size;
+  border-radius: $size;
+}
+
+.player {
+  @extend %debug;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: $half-size;
+  -webkit-transform-origin: 50% 0;
+  -webkit-transform: rotate(0deg);
+  -webkit-transition: -webkit-transform .25s;
+}
+
+.paddle {
+  $width: 300px;
+  $height: 100px;
+  @extend %debug;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -$width / 2;
+  margin-top: -40px;
+  width: $width;
+  height: $height;
+
+  .arc {
+    stroke-width: 20px;
+    -webkit-transition: stroke 1s linear;
+  }
+
+  .player[data-health="3"] & .arc { stroke: hsl(90, 75%, 30%); }
+  .player[data-health="2"] & .arc { stroke: hsl(40, 75%, 46%); }
+  .player[data-health="1"] & .arc { stroke: hsl(05, 75%, 40%); }
+}
