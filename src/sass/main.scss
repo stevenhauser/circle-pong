@@ -24,6 +24,15 @@ body {
   border-radius: $size;
 }
 
+.ball {
+  $size: 20px;
+  position: absolute;
+  width: $size;
+  height: $size;
+  border-radius: $size;
+  background: #eee;
+}
+
 .player {
   @extend %debug;
   position: absolute;
