@@ -61,6 +61,9 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
 
 
 
+  io.configure(function() {
+    io.set("log level", 0);
+  });
 
   io.sockets.on("connection", function(socket) {
 
