@@ -24,6 +24,9 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   ball = new Ball
 
   hurtPlayers = function (safePlayer) {
+    console.log( "hurting all but", safePlayer && safePlayer.id );
+    // Don't hurt anyone if no one hit the ball
+    if (!safePlayer) { return; }
     players.forEach(function(player) {
       if (player !== safePlayer) { player.hurt(); }
     });
@@ -64,7 +67,7 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
 
   tick = function() {
     ball.update(players);
-    if (ball.wasJustReset) { hurtPlayers(); }
+    if (ball.wasJustReset) { hurtPlayers(ball.oldLastPlayerToHit); }
     updatePlayers();
     broadcastState();
   }
