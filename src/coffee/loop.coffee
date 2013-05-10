@@ -9,11 +9,8 @@ define (require) ->
       player.hurt() unless player is safePlayer
 
   updatePlayers = () ->
-    socket = sockets.socket
     for player in players
       player.update()
-      removePlayer(player) if player.isRotting
-      socket.emit "player:updated", player.toJSON()
 
   removePlayer = (player) =>
     idx = players.indexOf(player)
@@ -25,9 +22,9 @@ define (require) ->
 
   tick = () ->
     ball.updateElement()
+    sockets.socket.emit "player:updated", human.toJSON()
     if players.length
-      # hurtPlayers() if ball.wasJustReset
-      # updatePlayers()
+      updatePlayers()
     else
       endGame()
     requestAnimationFrame tick

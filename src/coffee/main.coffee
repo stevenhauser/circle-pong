@@ -13,7 +13,6 @@ define (require) ->
 
   window.human = human
   window.ball = ball
-  players.push human
 
 
   # Init

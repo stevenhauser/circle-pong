@@ -1,6 +1,7 @@
 define (require) ->
 
   anglable = require "anglable"
+  settable = require "settable"
   appConfig = require "config"
 
   radius = appConfig.width / 2
@@ -37,14 +38,14 @@ define (require) ->
 
     shouldUpdate: true
 
-    constructor: () ->
+    constructor: (props = {}) ->
       @id     = "player-#{Date.now()}"
       @health = config.health.max
       @lives  = config.lives.max
       @angle  = getAngle()
       @isRotting = false
       @rotationDirection = 0
-      @createElement().update()
+      @set(props).createElement().update()
       @
 
     createElement: () ->
@@ -147,6 +148,6 @@ define (require) ->
       _.pick @, "angle", "id"
 
 
-  _.extend Player::, anglable
+  _.extend Player::, anglable, settable
 
   Player

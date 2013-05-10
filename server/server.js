@@ -34,6 +34,12 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
     });
   }
 
+  updatePlayer = function(clientData) {
+    player = _.find(players, function(player) { return player.id === clientData.id; });
+    if (!player) { return; }
+    player.set(clientData);
+  }
+
   removePlayer = function (player) {
     var idx = players.indexOf(player)
     if (idx < 0) { return; }
@@ -42,10 +48,8 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
 
   broadcastState = function() {
     var state = {
-      ball: _.pick(ball, "x", "y", "vx", "vy", "angle"),
-      players: players.map(function(player) {
-        _.pick(player, "angle", "id")
-      })
+      ball: ball.toJSON(),
+      players: players.map(function(player) { return player.toJSON(); })
     };
     io.sockets.emit("game:state", state);
   };
@@ -66,11 +70,20 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   });
 
   io.sockets.on("connection", function(socket) {
+    var player = new Player()
+    players.push(player)
+    socket.emit("user:created", player.toJSON())
+    socket.broadcast.emit("player:joined", player.toJSON());
 
     socket.on("player:updated", function(data) {
-      console.log( "player:updated", data );
+      updatePlayer(data);
     });
 
+    socket.on("disconnect", function() {
+      if (!player) { return; }
+      removePlayer(player);
+      socket.broadcast.emit("player:left", player.toJSON());
+    });
   }); // end sockets.on
 
 }); // end requirejs

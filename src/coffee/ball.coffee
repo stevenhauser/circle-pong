@@ -2,6 +2,7 @@ define (require) ->
 
   config = require "config"
   anglable = require "anglable"
+  settable = require "settable"
 
   cx = config.width / 2
   cy = cx
@@ -51,7 +52,6 @@ define (require) ->
       rad = Math.atan2 @vy, @vx
       deg = @r2d rad
       @angle = deg - 90
-      console.log( "ball:", @getNormalizedAngle() );
 
     update: (players) ->
       if @isOutOfBounds()
@@ -70,9 +70,8 @@ define (require) ->
       @el.style.top = @y
       @
 
-    set: (props) ->
-      @[prop] = val for own prop, val of props
-      @
+    toJSON: () ->
+      _.pick(@, "x", "y", "vx", "vy", "angle")
 
     checkForCollisions: (players) ->
       return unless @isOnBound()
@@ -106,6 +105,6 @@ define (require) ->
 
 
 
-  _.extend Ball::, anglable
+  _.extend Ball::, anglable, settable
 
   Ball
