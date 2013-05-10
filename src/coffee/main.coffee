@@ -2,14 +2,16 @@ define (require) ->
 
   User = require "user"
   Ball = require "ball"
+  players = require "players"
+  theLoop = require "loop"
+
 
 
   # Creation
 
   window.user = user = new User
   window.ball = ball = new Ball
-  players = [user]
-
+  players.push user
 
 
   # DOM stuff
@@ -24,32 +26,7 @@ define (require) ->
 
 
 
-  # The loop and init
+  # Init
 
-  hurtPlayers = (safePlayer) ->
-    for player in players
-      player.hurt() unless player is safePlayer
+  theLoop.tick()
 
-  updatePlayers = () ->
-    for player in players
-      player.update()
-      removePlayer(player) if player.isRotting
-
-  removePlayer = (player) =>
-    idx = players.indexOf(player)
-    return unless idx > -1
-    players.splice idx, 1
-
-  endGame = () ->
-    game.classList.add "over"
-
-  tick = () ->
-    if players.length
-      ball.update(players)
-      hurtPlayers() if ball.wasJustReset
-      updatePlayers()
-      requestAnimationFrame tick
-    else
-      endGame()
-
-  tick()
