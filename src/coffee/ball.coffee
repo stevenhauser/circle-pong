@@ -61,9 +61,13 @@ define (require) ->
       @bounce() if collided
       @x += @vx
       @y += @vy
+      @updateElement()
+      @wasJustReset = false
+      @
+
+    updateElement: () ->
       @el.style.left = @x
       @el.style.top = @y
-      @wasJustReset = false
       @
 
     checkForCollisions: (players) ->

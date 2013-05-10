@@ -82,11 +82,15 @@ define (require) ->
 
     update: () ->
       return unless @shouldUpdate
+      @updateElement()
+      @setAngle @rotationDirection * @speed
+      @
+
+    updateElement: () ->
       @el.dataset.health = @health
       @el.dataset.lives = @lives
       @el.style.webkitTransform = "rotate(#{@angle}deg)"
       @arc.setAttribute "d", @calculatePath()
-      @setAngle @rotationDirection * @speed
       @
 
     move: (dir) ->

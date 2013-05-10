@@ -1,9 +1,10 @@
 define (require) ->
 
-  Ball = require "ball"
+  ball = require "the-ball"
   human = require "human"
   players = require "players"
   theLoop = require "loop"
+  dom = require "dom"
   sockets = require "sockets"
 
 
@@ -11,24 +12,13 @@ define (require) ->
   # Creation
 
   window.human = human
-  window.ball = ball = new Ball
+  window.ball = ball
   players.push human
-
-
-  # DOM stuff
-
-  game = document.getElementById "game"
-
-  game.appendChild ball.el
-
-  for player in players
-    game.appendChild player.el
-    player.appended()
-
 
 
   # Init
 
+  dom.addBall(ball)
   sockets.initialize()
   theLoop.tick()
 
