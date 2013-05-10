@@ -16,5 +16,7 @@ console.log( "Listening on 3000" );
 
 
 io.sockets.on("connection", function(socket) {
-  console.log( "connection" );
+  socket.on("player:updated", function(data) {
+    console.log( "player:updated", data );
+  });
 });

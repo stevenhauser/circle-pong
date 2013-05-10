@@ -38,7 +38,7 @@ define (require) ->
     shouldUpdate: true
 
     constructor: () ->
-      @id     = _.uniqueId "player-"
+      @id     = "player-#{Date.now()}"
       @health = config.health.max
       @lives  = config.lives.max
       @angle  = getAngle()
@@ -138,6 +138,9 @@ define (require) ->
     appended: () ->
       @el.classList.remove "entering"
       @
+
+    toJSON: () ->
+      _.pick @, "angle", "id"
 
 
   _.extend Player::, anglable

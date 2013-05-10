@@ -1,7 +1,7 @@
 define (require) ->
 
-  User = require "user"
   Ball = require "ball"
+  human = require "human"
   players = require "players"
   theLoop = require "loop"
   sockets = require "sockets"
@@ -10,9 +10,9 @@ define (require) ->
 
   # Creation
 
-  window.user = user = new User
+  window.human = human
   window.ball = ball = new Ball
-  players.push user
+  players.push human
 
 
   # DOM stuff
