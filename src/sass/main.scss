@@ -79,6 +79,7 @@ body {
   margin-top: -40px;
   width: $width;
   height: $height;
+  opacity: .5;
   -webkit-transition: margin-top .5s ease-in;
 
   .arc {
