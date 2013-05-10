@@ -26,6 +26,9 @@ define (require) ->
       super
       @
 
+    set: (props) ->
+      super _.omit props, "angle"
+
     # Event handlers
 
     onKeydown: (e) =>
