@@ -36,16 +36,18 @@ module.exports = (grunt) ->
         files: ['src/**/*.scss']
         tasks: ['compass']
 
-    connect:
-      server:
-        options:
-          port: 8000
+    express:
+      debug: true
+      port: 8000
+      server: "server/server.coffee"
 
 
   grunt.loadNpmTasks('grunt-contrib/node_modules/grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib/node_modules/grunt-contrib-compass')
   grunt.loadNpmTasks('grunt-contrib/node_modules/grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib/node_modules/grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-express')
 
   grunt.registerTask('setup', ['coffee', 'compass'])
-  grunt.registerTask('default', ['setup', 'connect', 'watch'])
+  grunt.registerTask('default', ['setup', 'watch'])
+  grunt.registerTask('server', ['express', 'express-keepalive'])
