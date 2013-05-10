@@ -5,7 +5,6 @@ define (require) ->
   appConfig = require "config"
 
   radius = appConfig.width / 2
-  angle = -90
   chordOffset = 25
 
   config =
@@ -18,14 +17,14 @@ define (require) ->
       radius:  265
     lives:
       min: 1
-      max: 3
+      max: 2
     health:
       min: 1
       max: 3
 
 
-  getAngle = () ->
-    angle
+  getRandomAngle = () ->
+    _.random 0, 360
 
   square = (num) ->
     num * num
@@ -42,7 +41,7 @@ define (require) ->
       @id     = "player-#{Date.now()}"
       @health = config.health.max
       @lives  = config.lives.max
-      @angle  = getAngle()
+      @angle  = getRandomAngle()
       @isRotting = false
       @rotationDirection = 0
       @set(props).createElement().update()
