@@ -9,12 +9,14 @@ define (require) ->
   radius  = cx
   boundDistance = radius # + 50
 
+  ballTimeout = 500
+
 
   class Ball
 
-    minSpeed: 1
+    minSpeed: 6
 
-    maxSpeed: 3
+    maxSpeed: 20
 
     acceleration: 1.1
 
@@ -31,10 +33,14 @@ define (require) ->
     reset: () ->
       @x = cx
       @y = cy
-      @setRandomVector().calculateAngle()
-      @oldLastPlayerToHit = @lastPlayerToHit
-      @lastPlayerToHit = null
-      @wasJustReset = true
+      @vx = 0
+      @vy = 0
+      setTimeout () =>
+        @setRandomVector().calculateAngle()
+        @oldLastPlayerToHit = @lastPlayerToHit
+        @lastPlayerToHit = null
+        @wasJustReset = true
+      , ballTimeout
       @
 
     setRandomVector: () ->
@@ -43,7 +49,7 @@ define (require) ->
       @
 
     randomSpeed: () ->
-      _.random(@minSpeed, @maxSpeed)
+      _.random(@minSpeed, @maxSpeed) / 10
 
     randomVector: () ->
       if Math.random() > .5 then 1 else -1
@@ -98,10 +104,16 @@ define (require) ->
       dy = Math.abs point.y - @y
       Math.sqrt dx * dx + dy * dy
 
+    accelerate: () ->
+      @vx *= @acceleration
+      @vy *= @acceleration
+      @
+
     bounce: () ->
       @vx *= -1
       @vy *= -1
-      @calculateAngle()
+      @accelerate().calculateAngle()
+      @
 
 
 

@@ -34,7 +34,7 @@ define (require) ->
 
   class Player
 
-    speed: 2
+    speed: 3
 
     shouldUpdate: true
 
