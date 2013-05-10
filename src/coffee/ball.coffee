@@ -14,9 +14,9 @@ define (require) ->
 
   class Ball
 
-    minSpeed: 6
+    minSpeed: 10
 
-    maxSpeed: 20
+    maxSpeed: 25
 
     acceleration: 1.1
 
@@ -35,11 +35,11 @@ define (require) ->
       @y = cy
       @vx = 0
       @vy = 0
+      @oldLastPlayerToHit = @lastPlayerToHit
+      @lastPlayerToHit = null
+      @wasJustReset = true
       setTimeout () =>
         @setRandomVector().calculateAngle()
-        @oldLastPlayerToHit = @lastPlayerToHit
-        @lastPlayerToHit = null
-        @wasJustReset = true
       , ballTimeout
       @
 
@@ -88,6 +88,7 @@ define (require) ->
         isInRange = sweep.min < ballAngle < sweep.max
         if isInRange
           @lastPlayerToHit = player
+          console.log( "hit by", player.id );
           return true
 
     isOnBound: () ->
