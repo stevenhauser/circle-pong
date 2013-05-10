@@ -4,6 +4,7 @@ define (require) ->
   Ball = require "ball"
   players = require "players"
   theLoop = require "loop"
+  sockets = require "sockets"
 
 
 
@@ -28,5 +29,6 @@ define (require) ->
 
   # Init
 
+  sockets.initialize()
   theLoop.tick()
 

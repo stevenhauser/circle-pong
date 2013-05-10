@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "requirejs": "~2.1.5",
-    "underscore": "~1.4.4"
+    "underscore": "~1.4.4",
+    "socket.io-client": "~0.9.11"
   }
 }
