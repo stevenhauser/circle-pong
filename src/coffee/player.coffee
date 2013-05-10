@@ -38,7 +38,7 @@ define (require) ->
       @health = config.health.max
       @lives  = config.lives.max
       @angle  = getAngle()
-      @hasBeenRemoved = false
+      @isRotting = false
       @rotationDirection = 0
       @createElement().update()
       @
@@ -117,13 +117,13 @@ define (require) ->
 
     rot: () ->
       @shouldUpdate = false
+      @isRotting = true
       @el.classList.add "exiting"
       setTimeout (() => @remove()), 5000
       @
 
     remove: () ->
       @el.remove()
-      @hasBeenRemoved = true
       @
 
     appended: () ->

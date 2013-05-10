@@ -2,7 +2,7 @@ $size: 500px;
 $half-size: $size / 2;
 
 %debug {
-  box-shadow: 0 0 0 1px rgba(#f00, .5);
+  // box-shadow: 0 0 0 1px rgba(#f00, .5);
 }
 
 * {
@@ -12,6 +12,7 @@ $half-size: $size / 2;
 }
 
 body {
+  font: 62.5% / 2 sans-serif;
   background: #222;
   overflow: hidden;
 }
@@ -19,10 +20,25 @@ body {
 #game {
   @extend %debug;
   position: relative;
+  padding: 1px;
   margin: 30px auto 0;
   width: $size;
   height: $size;
   border-radius: $size;
+
+  &.over {
+    .ball { opacity: 0; }
+    #game-over { opacity: 1; }
+  }
+}
+
+#game-over {
+  color: #eee;
+  font-size: 2.4em;
+  margin-top: 10em;
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: opacity .5s;
 }
 
 .ball {
@@ -32,6 +48,7 @@ body {
   height: $size;
   border-radius: $size;
   background: #eee;
+  -webkit-transition: opacity .5s;
 }
 
 .player {

@@ -33,18 +33,23 @@ define (require) ->
   updatePlayers = () ->
     for player in players
       player.update()
-      removePlayer(player) if player.hasBeenRemoved
+      removePlayer(player) if player.isRotting
 
   removePlayer = (player) =>
     idx = players.indexOf(player)
     return unless idx > -1
     players.splice idx, 1
 
+  endGame = () ->
+    game.classList.add "over"
+
   tick = () ->
-    return unless players.length
-    ball.update(players)
-    hurtPlayers() if ball.wasJustReset
-    updatePlayers()
-    requestAnimationFrame tick
+    if players.length
+      ball.update(players)
+      hurtPlayers() if ball.wasJustReset
+      updatePlayers()
+      requestAnimationFrame tick
+    else
+      endGame()
 
   tick()
