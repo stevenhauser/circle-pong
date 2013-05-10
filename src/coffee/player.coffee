@@ -5,6 +5,7 @@ define (require) ->
 
   radius = appConfig.width / 2
   angle = -90
+  chordOffset = 25
 
   config =
     svg:
@@ -23,7 +24,10 @@ define (require) ->
 
 
   getAngle = () ->
-    angle = angle + 45
+    angle
+
+  square = (num) ->
+    num * num
 
 
 
@@ -73,7 +77,7 @@ define (require) ->
     calculatePath: () ->
       x1 = @getChordOffset()
       x2 = config.svg.width - x1
-      y  = 25
+      y  = chordOffset
       "M #{x1} #{y} A 265 265 0 0 0 #{x2} #{y}"
 
     update: () ->
@@ -94,16 +98,21 @@ define (require) ->
       @
 
     getChordOffset: () ->
-      (config.lives.max - @lives + 1) * 25
+      (config.lives.max - @lives + 1) * chordOffset
 
-    # @TODO: This isn't accurate at all. Somehow need to calculate
-    # the overall angle a paddle covers from one end to another,
-    # but my math skills are too abysmal to do so...
+    # This isn't accurate at all. Can be off by around 10 degrees.
+    # Probably completely wrong math here.
     getAngleRange: () ->
       angle = @getNormalizedAngle()
-      halfChord = @getChordOffset()
-      range = halfChord
-      { min: angle - range, max: angle + range }
+      chord = @lives * chordOffset * 3
+      # angle of c = acos((a^2 + b^2 - c^2) / (2ab))
+      numerator = square(radius) + square(radius) - square(chord)
+      denominator = 2 * radius * radius
+      sweepAngle = @r2d Math.acos(numerator / denominator)
+      halfSweep = sweepAngle / 2
+      min = @getNormalizedAngle(angle - halfSweep)
+      max = @getNormalizedAngle(angle + halfSweep)
+      { min: min, max: max }
 
     hurt: () ->
       if @health > config.health.min then @health--
@@ -111,7 +120,7 @@ define (require) ->
       @
 
     die: () ->
-      @lives--
+      # @lives--
       @rot() if @lives < config.lives.min
       @
 

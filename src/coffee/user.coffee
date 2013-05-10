@@ -33,3 +33,4 @@ define (require) ->
 
     onKeyup: (e) =>
       @move 0 if e.which of KEYS
+      console.log( "user:", @getNormalizedAngle(), @getAngleRange() );
