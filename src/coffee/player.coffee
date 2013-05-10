@@ -90,6 +90,7 @@ define (require) ->
     updateElement: () ->
       @el.dataset.health = @health
       @el.dataset.lives = @lives
+      @el.classList.add "exiting" if @isRotting
       @el.style.webkitTransform = "rotate(#{@angle}deg)"
       @arc.setAttribute "d", @calculatePath()
       @
@@ -126,14 +127,14 @@ define (require) ->
       @
 
     die: () ->
-      # @lives--
+      @lives--
       @rot() if @lives < config.lives.min
       @
 
     rot: () ->
       @shouldUpdate = false
       @isRotting = true
-      @el.classList.add "exiting"
+      @updateElement()
       setTimeout (() => @remove()), 5000
       @
 
@@ -146,7 +147,7 @@ define (require) ->
       @
 
     toJSON: () ->
-      _.pick @, "angle", "id"
+      _.pick @, "angle", "id", "lives", "health"
 
 
   _.extend Player::, anglable, settable

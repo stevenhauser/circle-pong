@@ -60,3 +60,8 @@ define (require) ->
       player = findPlayer(playerAttrs)
       player.rot() if player?
       console.log( "player:left", playerAttrs );
+
+    @socket.on "player:removed", (playerAttrs) ->
+      player = findPlayer(playerAttrs)
+      player.rot() if player?
+      console.log( "player:removed", playerAttrs );

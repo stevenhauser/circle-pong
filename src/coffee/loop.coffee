@@ -25,8 +25,8 @@ define (require) ->
     sockets.socket.emit "player:updated", human.toJSON()
     if players.length
       updatePlayers()
-    else
-      endGame()
+    # else
+    #   endGame()
     requestAnimationFrame tick
 
   { tick: tick }

@@ -16,6 +16,8 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   // since there's no DOM
   Player.prototype.createElement =
   Player.prototype.updateElement =
+  Player.prototype.remove =
+  Player.prototype.appended =
   Ball.prototype.createElement =
   Ball.prototype.updateElement = function() { return this; };
 
@@ -30,7 +32,10 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   updatePlayers = function () {
     players.forEach(function(player) {
       player.update()
-      if (player.isRotting) { removePlayer(player) }
+      if (player.isRotting) {
+        removePlayer(player)
+        io.sockets.emit("player:removed", player.toJSON());
+      }
     });
   }
 
@@ -77,7 +82,7 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
     players.push(player)
     socket.emit("user:created", _.extend( getState(), { user: player.toJSON() }))
     socket.broadcast.emit("player:joined", player.toJSON());
-    console.log( "player joined", players.length );
+    // console.log( "player joined", players.length );
 
     socket.on("player:updated", function(data) {
       updatePlayer(data);
@@ -88,7 +93,7 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
       removePlayer(player);
       socket.broadcast.emit("player:left", player.toJSON());
 
-      console.log( "player left", players.length );
+      // console.log( "player left", players.length );
     });
   }); // end sockets.on
 
