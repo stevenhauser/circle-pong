@@ -14,6 +14,11 @@ define (require) ->
       super
       @
 
+    createElement: () ->
+      super
+      @el.classList.add "user"
+      @
+
     handleKeyboardEvents: (bind) ->
       method = if bind then "add" else "remove"
       method += "EventListener"

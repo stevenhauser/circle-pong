@@ -79,10 +79,10 @@ body {
   margin-top: -40px;
   width: $width;
   height: $height;
-  opacity: .5;
   -webkit-transition: margin-top .5s ease-in;
 
   .arc {
+    opacity: .5;
     stroke-width: 20px;
     -webkit-transition: stroke .5s linear;
   }
@@ -92,6 +92,16 @@ body {
   .player[data-health="1"] & .arc { stroke: hsl(05, 75%, 40%); }
 
   .exiting & { margin-top: 1000px; }
+
+  .user &:after {
+    content: "★";
+    font-size: 2rem;
+    position: absolute;
+    top: 1.2em;
+    left: 50%;
+    margin-left: -.7em;
+    color: rgba(#fff, .8);
+  }
 }
 
 
