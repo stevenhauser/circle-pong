@@ -46,12 +46,15 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
     players.splice(idx, 1);
   }
 
-  broadcastState = function() {
-    var state = {
+  getState = function() {
+    return {
       ball: ball.toJSON(),
       players: players.map(function(player) { return player.toJSON(); })
     };
-    io.sockets.emit("game:state", state);
+  }
+
+  broadcastState = function() {
+    io.sockets.emit("game:state", getState());
   };
 
   tick = function() {
@@ -72,7 +75,7 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   io.sockets.on("connection", function(socket) {
     var player = new Player()
     players.push(player)
-    socket.emit("user:created", player.toJSON())
+    socket.emit("user:created", _.extend( getState(), { user: player.toJSON() }))
     socket.broadcast.emit("player:joined", player.toJSON());
 
     socket.on("player:updated", function(data) {

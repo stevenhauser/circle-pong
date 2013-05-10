@@ -96,6 +96,7 @@ define (require) ->
 
     move: (dir) ->
       @rotationDirection = dir
+      @setAngle @rotationDirection * @speed
       @
 
     setAngle: (offset) ->

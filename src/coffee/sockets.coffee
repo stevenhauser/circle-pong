@@ -7,13 +7,17 @@ define (require) ->
   players = require "players"
 
   findPlayer = (playerAttrs) ->
-    _.find(players, (p) -> p.id is playerAttrs.id);
+    _.find players, (p) -> p.id is playerAttrs.id
 
-  removePlayer = (player) =>
+  removePlayer = (player) ->
     idx = players.indexOf(player)
     return unless idx > -1
     players.splice idx, 1
 
+  addPlayer = (playerAttrs) ->
+    player = new Player(playerAttrs)
+    dom.addPlayer(player)
+    players.push(player)
 
   # Return
 
@@ -39,13 +43,15 @@ define (require) ->
         player.set(playerAttrs) if player?
 
     @socket.on "user:created", (data) ->
+      human.set data.user
       dom.addPlayer(human)
       players.push(human)
+      console.log( data );
+      # Add existing players
+      addPlayer(playerAttrs) for playerAttrs in data.players
 
     @socket.on "player:joined", (playerAttrs) ->
-      player = new Player(playerAttrs)
-      dom.addPlayer(player)
-      players.push(player)
+      addPlayer playerAttrs
       console.log( "player:joined", playerAttrs );
       console.log( players );
 

@@ -10,7 +10,7 @@ define (require) ->
 
   updatePlayers = () ->
     for player in players
-      player.update()
+      player.updateElement()
 
   removePlayer = (player) =>
     idx = players.indexOf(player)
