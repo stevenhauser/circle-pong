@@ -24,12 +24,12 @@ define (require) ->
     game.classList.add "over"
 
   tick = () ->
+    ball.updateElement()
     if players.length
-      ball.update(players)
-      hurtPlayers() if ball.wasJustReset
-      updatePlayers()
-      requestAnimationFrame tick
+      # hurtPlayers() if ball.wasJustReset
+      # updatePlayers()
     else
       endGame()
+    requestAnimationFrame tick
 
   { tick: tick }

@@ -35,19 +35,42 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
   }
 
   removePlayer = function (player) {
-    idx = players.indexOf(player)
+    var idx = players.indexOf(player)
     if (idx < 0) { return; }
     players.splice(idx, 1);
   }
+
+  broadcastState = function() {
+    var state = {
+      ball: _.pick(ball, "x", "y", "vx", "vy", "angle"),
+      players: players.map(function(player) {
+        _.pick(player, "angle", "id")
+      })
+    };
+    io.sockets.emit("game:state", state);
+  };
 
   tick = function() {
     ball.update(players);
     if (ball.wasJustReset) { hurtPlayers(); }
     updatePlayers();
+    broadcastState();
   }
 
-  setInterval(tick, 100);
-});
+  setInterval(tick, 1000 / 60);
+
+
+
+
+  io.sockets.on("connection", function(socket) {
+
+    socket.on("player:updated", function(data) {
+      console.log( "player:updated", data );
+    });
+
+  }); // end sockets.on
+
+}); // end requirejs
 
 
 
@@ -55,13 +78,3 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
 app.use( express.static(__dirname + "/..") );
 app.listen(3000);
 console.log( "Listening on 3000" );
-
-
-
-io.sockets.on("connection", function(socket) {
-
-  socket.on("player:updated", function(data) {
-    console.log( "player:updated", data );
-  });
-
-});

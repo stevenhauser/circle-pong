@@ -70,6 +70,10 @@ define (require) ->
       @el.style.top = @y
       @
 
+    set: (props) ->
+      @[prop] = val for own prop, val of props
+      @
+
     checkForCollisions: (players) ->
       return unless @isOnBound()
       for player in players

@@ -1,5 +1,10 @@
 define (require) ->
 
+  ball = require "the-ball"
+
+
+  # Return
+
   socketPort: 3001
 
   socket: null
@@ -16,3 +21,6 @@ define (require) ->
   bindSocketEvents: () ->
     @socket.on "connect", (data) ->
       console.log( "connect", data );
+
+    @socket.on "game:state", (data) ->
+      ball.set(data.ball)
