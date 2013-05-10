@@ -15,6 +15,7 @@ define (require) ->
     players.splice idx, 1
 
   addPlayer = (playerAttrs) ->
+    return if findPlayer(playerAttrs)?
     player = new Player(playerAttrs)
     dom.addPlayer(player)
     players.push(player)

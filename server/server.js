@@ -77,6 +77,7 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
     players.push(player)
     socket.emit("user:created", _.extend( getState(), { user: player.toJSON() }))
     socket.broadcast.emit("player:joined", player.toJSON());
+    console.log( "player joined", players.length );
 
     socket.on("player:updated", function(data) {
       updatePlayer(data);
@@ -86,6 +87,8 @@ requirejs(["ball", "player", "players"], function(Ball, Player, players) {
       if (!player) { return; }
       removePlayer(player);
       socket.broadcast.emit("player:left", player.toJSON());
+
+      console.log( "player left", players.length );
     });
   }); // end sockets.on
 
