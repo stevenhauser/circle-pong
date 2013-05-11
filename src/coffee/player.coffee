@@ -116,8 +116,10 @@ define (require) ->
       denominator = 2 * radius * radius
       sweepAngle = @r2d Math.acos(numerator / denominator)
       halfSweep = sweepAngle / 2
-      min = @getNormalizedAngle(angle - halfSweep)
       max = @getNormalizedAngle(angle + halfSweep)
+      min = @getNormalizedAngle(angle - halfSweep)
+      # Ensure min is less than max
+      min -= if min > max then 360 else 0
       { min: min, max: max }
 
     hurt: () ->
