@@ -86,6 +86,7 @@ define (require) ->
         ballAngle = @getNormalizedAngle()
         playerAngle = player.getNormalizedAngle()
         isInRange = sweep.min < ballAngle < sweep.max
+        console.log( ballAngle, playerAngle, sweep, isInRange );
         if isInRange
           @lastPlayerToHit = player
           console.log( "hit by", player.id );

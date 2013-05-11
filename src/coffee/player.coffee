@@ -75,10 +75,16 @@ define (require) ->
       @
 
     calculatePath: () ->
-      x1 = @getChordOffset()
-      x2 = config.svg.width - x1
+      x1 = @getPathX1()
+      x2 = @getPathX2()
       y  = chordOffset
       "M #{x1} #{y} A 265 265 0 0 0 #{x2} #{y}"
+
+    getPathX1: () ->
+      @getChordOffset()
+
+    getPathX2: () ->
+      config.svg.width - @getPathX1()
 
     update: () ->
       return unless @shouldUpdate
@@ -110,7 +116,7 @@ define (require) ->
     # Probably completely wrong math here.
     getAngleRange: () ->
       angle = @getNormalizedAngle()
-      chord = @lives * chordOffset * 3
+      chord = @getPathX2() - @getPathX1()
       # angle of c = acos((a^2 + b^2 - c^2) / (2ab))
       numerator = square(radius) + square(radius) - square(chord)
       denominator = 2 * radius * radius
